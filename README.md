@@ -45,21 +45,25 @@ The player gets one target at a time (country, capital, city, or mixed) and trie
 
 ## Downloading Map Assets
 
-Map assets are not stored in git. Download them locally into `public/`.
+Required runtime assets are versioned in git so Vercel deploys work out of the box.
 
-Required files:
+Tracked required files:
 
 - `public/countries-110m.json`
-  - source: [world-atlas countries-110m.json](https://unpkg.com/world-atlas@2/countries-110m.json)
 - `public/world-locations.json`
-  - you can generate this file with the script:
-    1. download REST Countries data into `tmp-restcountries.json` from [restcountries.com/v3.1/all](https://restcountries.com/v3.1/all)
-    2. run `node scripts/generate-world-locations.mjs`
+- `public/world-satellite-clean.jpg`
 
-Background map:
+Optional large files (not tracked in git):
 
-- `public/world-satellite-clean.jpg` is the active in-game background.
-- optional map images (for example `world-satellite-no-grid.png`, `world-equirectangular-hq.jpg`) can be downloaded from your preferred source, as long as the filenames match what the project expects.
+- `public/world-satellite-no-grid.png`
+- `public/world-equirectangular-hq.jpg`
+
+If required files are missing locally, you can recreate/download them:
+
+- `public/countries-110m.json` source: [world-atlas countries-110m.json](https://unpkg.com/world-atlas@2/countries-110m.json)
+- `public/world-locations.json`:
+  1. download REST Countries data into `tmp-restcountries.json` from [restcountries.com/v3.1/all](https://restcountries.com/v3.1/all)
+  2. run `node scripts/generate-world-locations.mjs`
 
 ## Local Development
 
@@ -134,21 +138,25 @@ Pelaaja saa aina yhden kohteen kerrallaan (maa, pääkaupunki, kaupunki tai seko
 
 ## Kartta-aineistojen lataus
 
-Karttatiedostoja ei pideta gitissa. Lataa ne paikallisesti `public/`-kansioon.
+Pelin pakolliset runtime-aineistot ovat gitissa, jotta Vercel-deploy toimii suoraan.
 
-Pakolliset tiedostot:
+Gitissa seurattavat pakolliset tiedostot:
 
 - `public/countries-110m.json`
-  - lataus: [world-atlas countries-110m.json](https://unpkg.com/world-atlas@2/countries-110m.json)
 - `public/world-locations.json`
-  - voit luoda tiedoston skriptilla:
-    1. lataa REST Countries -data tiedostoon `tmp-restcountries.json` osoitteesta [restcountries.com/v3.1/all](https://restcountries.com/v3.1/all)
-    2. aja `node scripts/generate-world-locations.mjs`
+- `public/world-satellite-clean.jpg`
 
-Taustakartta:
+Valinnaiset isot tiedostot (ei git-seurantaa):
 
-- `public/world-satellite-clean.jpg` on pelin kayttama taustakartta.
-- vaihtoehtoiset karttakuvat (esim. `world-satellite-no-grid.png`, `world-equirectangular-hq.jpg`) voi ladata vapaasti valitsemastasi lahteesta, kunhan nimet vastaavat projektin odottamia tiedostonimia.
+- `public/world-satellite-no-grid.png`
+- `public/world-equirectangular-hq.jpg`
+
+Jos pakolliset tiedostot puuttuvat paikallisesti, ne voi hakea/luoda:
+
+- `public/countries-110m.json` lataus: [world-atlas countries-110m.json](https://unpkg.com/world-atlas@2/countries-110m.json)
+- `public/world-locations.json`:
+  1. lataa REST Countries -data tiedostoon `tmp-restcountries.json` osoitteesta [restcountries.com/v3.1/all](https://restcountries.com/v3.1/all)
+  2. aja `node scripts/generate-world-locations.mjs`
 
 ## Kehitys lokaalisti
 

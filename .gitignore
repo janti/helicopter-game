@@ -12,11 +12,8 @@ dist
 dist-ssr
 *.local
 
-# Large map/data assets kept outside git
-public/countries-110m.json
-public/world-locations.json
+# Optional large map assets kept outside git
 public/world-equirectangular-hq.jpg
-public/world-satellite-clean.jpg
 public/world-satellite-no-grid.png
 
 # Editor directories and files
