@@ -1,94 +1,5 @@
 # Helicopter Game
 
-Selainpeli, jossa lennät helikopterilla maailmankartan päällä ja etsit annettuja kohteita aikaa vastaan.
-
-## Projektin kuvaus
-
-Pelaaja saa aina yhden kohteen kerrallaan (maa, pääkaupunki, kaupunki tai sekoitus) ja yrittää löytää sen kartalta mahdollisimman nopeasti. Kierros päättyy, kun aika loppuu tai pelaaja lopettaa pelin.
-
-## Ominaisuudet
-
-- reaaliaikainen heli-ohjaus kartalla (`WASD` tai nuolinäppäimet)
-- kohteet: maat, pääkaupungit, kaupungit tai sekoitus
-- vaikeustasot: `easy`, `medium`, `hard`, `extreme`
-- peliaika valittavissa: 60 / 120 / 180 sekuntia
-- kielivalinta: suomi / englanti
-- vihjejärjestelmä (nuolivihje + kohdemerkki lähellä kohdetta)
-- pisteytys, skip-rangaistus ja vihjeen käytön pistemenetys
-- highscore-lista `localStorage`-tallennuksella
-
-## Ohjaimet
-
-- liiku: `W` `A` `S` `D` tai nuolinäppäimet
-- valikosta valitaan asetukset ennen kierrosta
-- pelin aikana voi:
-  - ottaa vihjeen päälle / pois
-  - skipata nykyisen kohteen
-  - lopettaa kierroksen heti
-
-## Teknologiat
-
-- React + Vite + TypeScript
-- HTML5 Canvas
-- Tailwind CSS
-- topojson-client (valtiorajojen piirto)
-- localStorage (highscores)
-
-## Projektin rakenne (oleellisimmat)
-
-- `src/components/` - UI-näkymä, valikko, pelinäkymä ja game over
-- `src/game/` - pelilooppi, kamera, helikopterin fysiikka ja pisteytys
-- `src/utils/` - datan lataus, projektiot ja apufunktiot
-- `src/i18n/` - kielitekstit (fi/en)
-- `public/world-locations.json` - kohdedata
-- `public/countries-110m.json` - valtionrajojen geometria
-
-## Kartta-aineistojen lataus
-
-Karttatiedostoja ei pideta gitissa. Lataa ne paikallisesti `public/`-kansioon.
-
-Pakolliset tiedostot:
-
-- `public/countries-110m.json`
-  - lataus: [world-atlas countries-110m.json](https://unpkg.com/world-atlas@2/countries-110m.json)
-- `public/world-locations.json`
-  - voit luoda tiedoston skriptilla:
-    1. lataa REST Countries -data tiedostoon `tmp-restcountries.json` osoitteesta [restcountries.com/v3.1/all](https://restcountries.com/v3.1/all)
-    2. aja `node scripts/generate-world-locations.mjs`
-
-Taustakartta:
-
-- `public/world-satellite-clean.jpg` on pelin kayttama taustakartta.
-- vaihtoehtoiset karttakuvat (esim. `world-satellite-no-grid.png`, `world-equirectangular-hq.jpg`) voi ladata vapaasti valitsemastasi lahteesta, kunhan nimet vastaavat projektin odottamia tiedostonimia.
-
-## Kehitys lokaalisti
-
-```bash
-npm install
-npm run dev
-```
-
-## Skriptit
-
-```bash
-npm run dev
-npm run lint
-npm run build
-npm run preview
-```
-
-`npm run build` tuottaa tuotantoversion `dist`-hakemistoon.
-
-## Julkaisun tarkistuslista
-
-- `npm run lint` menee läpi ilman virheitä
-- `npm run build` onnistuu
-- peli toimii selaimessa build-versiona (`npm run preview`)
-
----
-
-## English
-
 Browser game where you fly a helicopter over a world map and find given targets against the clock.
 
 ## Project Overview
@@ -173,3 +84,92 @@ npm run preview
 - `npm run lint` passes without errors
 - `npm run build` succeeds
 - game works in production preview (`npm run preview`)
+
+---
+
+## Suomi
+
+Selainpeli, jossa lennät helikopterilla maailmankartan päällä ja etsit annettuja kohteita aikaa vastaan.
+
+## Projektin kuvaus
+
+Pelaaja saa aina yhden kohteen kerrallaan (maa, pääkaupunki, kaupunki tai sekoitus) ja yrittää löytää sen kartalta mahdollisimman nopeasti. Kierros päättyy, kun aika loppuu tai pelaaja lopettaa pelin.
+
+## Ominaisuudet
+
+- reaaliaikainen heli-ohjaus kartalla (`WASD` tai nuolinäppäimet)
+- kohteet: maat, pääkaupungit, kaupungit tai sekoitus
+- vaikeustasot: `easy`, `medium`, `hard`, `extreme`
+- peliaika valittavissa: 60 / 120 / 180 sekuntia
+- kielivalinta: suomi / englanti
+- vihjejärjestelmä (nuolivihje + kohdemerkki lähellä kohdetta)
+- pisteytys, skip-rangaistus ja vihjeen käytön pistemenetys
+- highscore-lista `localStorage`-tallennuksella
+
+## Ohjaimet
+
+- liiku: `W` `A` `S` `D` tai nuolinäppäimet
+- valikosta valitaan asetukset ennen kierrosta
+- pelin aikana voi:
+  - ottaa vihjeen päälle / pois
+  - skipata nykyisen kohteen
+  - lopettaa kierroksen heti
+
+## Teknologiat
+
+- React + Vite + TypeScript
+- HTML5 Canvas
+- Tailwind CSS
+- topojson-client (valtiorajojen piirto)
+- localStorage (highscores)
+
+## Projektin rakenne (oleellisimmat)
+
+- `src/components/` - UI-näkymä, valikko, pelinäkymä ja game over
+- `src/game/` - pelilooppi, kamera, helikopterin fysiikka ja pisteytys
+- `src/utils/` - datan lataus, projektiot ja apufunktiot
+- `src/i18n/` - kielitekstit (fi/en)
+- `public/world-locations.json` - kohdedata
+- `public/countries-110m.json` - valtionrajojen geometria
+
+## Kartta-aineistojen lataus
+
+Karttatiedostoja ei pideta gitissa. Lataa ne paikallisesti `public/`-kansioon.
+
+Pakolliset tiedostot:
+
+- `public/countries-110m.json`
+  - lataus: [world-atlas countries-110m.json](https://unpkg.com/world-atlas@2/countries-110m.json)
+- `public/world-locations.json`
+  - voit luoda tiedoston skriptilla:
+    1. lataa REST Countries -data tiedostoon `tmp-restcountries.json` osoitteesta [restcountries.com/v3.1/all](https://restcountries.com/v3.1/all)
+    2. aja `node scripts/generate-world-locations.mjs`
+
+Taustakartta:
+
+- `public/world-satellite-clean.jpg` on pelin kayttama taustakartta.
+- vaihtoehtoiset karttakuvat (esim. `world-satellite-no-grid.png`, `world-equirectangular-hq.jpg`) voi ladata vapaasti valitsemastasi lahteesta, kunhan nimet vastaavat projektin odottamia tiedostonimia.
+
+## Kehitys lokaalisti
+
+```bash
+npm install
+npm run dev
+```
+
+## Skriptit
+
+```bash
+npm run dev
+npm run lint
+npm run build
+npm run preview
+```
+
+`npm run build` tuottaa tuotantoversion `dist`-hakemistoon.
+
+## Julkaisun tarkistuslista
+
+- `npm run lint` menee läpi ilman virheitä
+- `npm run build` onnistuu
+- peli toimii selaimessa build-versiona (`npm run preview`)
