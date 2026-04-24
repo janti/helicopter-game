@@ -15,6 +15,13 @@ import { pickRandomTarget } from './utils/randomTarget'
 import { loadWorldLocations } from './utils/worldLocations'
 import { getI18n } from './i18n'
 
+type VirtualControlsState = {
+  up: boolean
+  down: boolean
+  left: boolean
+  right: boolean
+}
+
 const defaultSettings: GameSettings = {
   targetType: 'mixed',
   difficulty: 'easy',
@@ -27,6 +34,12 @@ const defaultSettings: GameSettings = {
 const SKIP_PENALTY_POINTS = 60
 const HINT_TOGGLE_PENALTY_POINTS = 40
 const HINT_TOGGLE_PENALTY_STEP = 20
+const defaultVirtualControls: VirtualControlsState = {
+  up: false,
+  down: false,
+  left: false,
+  right: false,
+}
 
 function App() {
   const [gameState, setGameState] = useState<GameState>('menu')
@@ -44,6 +57,8 @@ function App() {
   const [highScores, setHighScores] = useState<HighScoreEntry[]>(() => loadScores())
   const [hasSavedCurrentRun, setHasSavedCurrentRun] = useState(false)
   const [hintEnableCount, setHintEnableCount] = useState(0)
+  const [virtualControls, setVirtualControls] =
+    useState<VirtualControlsState>(defaultVirtualControls)
   const t = getI18n(settings.language)
 
   useEffect(() => {
@@ -74,6 +89,13 @@ function App() {
     }, 1000)
 
     return () => window.clearInterval(timer)
+  }, [gameState])
+
+  useEffect(() => {
+    if (gameState === 'playing') {
+      return
+    }
+    setVirtualControls(defaultVirtualControls)
   }, [gameState])
 
   const chooseNextTarget = useCallback(
@@ -164,6 +186,21 @@ function App() {
     })
   }, [hintEnableCount, t])
 
+  const setVirtualDirection = useCallback(
+    (direction: keyof VirtualControlsState, pressed: boolean) => {
+      setVirtualControls((prev) => {
+        if (prev[direction] === pressed) {
+          return prev
+        }
+        return {
+          ...prev,
+          [direction]: pressed,
+        }
+      })
+    },
+    [],
+  )
+
   return (
     <main className="h-screen overflow-hidden bg-slate-950 px-2 py-2 text-slate-100 sm:px-3 sm:py-3 md:px-4 md:py-4">
       <div
@@ -199,6 +236,7 @@ function App() {
                 showHint={settings.showHint}
                 difficulty={settings.difficulty}
                 language={settings.language}
+                virtualControls={virtualControls}
                 onProximityChange={() => {}}
                 onTargetFound={handleTargetFound}
               />
@@ -248,6 +286,32 @@ function App() {
               <div className="absolute bottom-2 left-2 pointer-events-auto sm:bottom-3 sm:left-3">
                 <div className="rounded-lg border border-slate-600/60 bg-slate-950/70 px-3 py-2 text-xs text-slate-200 backdrop-blur-sm sm:text-sm">
                   {t.common.found}: {foundCount} | {t.common.difficulty}: {t.labels.difficulty[settings.difficulty]}
+                </div>
+              </div>
+
+              <div className="absolute bottom-20 left-2 z-40 pointer-events-auto sm:bottom-24 sm:left-3">
+                <div className="mb-1 text-center text-[10px] font-semibold uppercase tracking-wide text-cyan-100/90">
+                  Touch
+                </div>
+                <div className="flex select-none flex-col items-center gap-2 rounded-xl border border-cyan-200/60 bg-slate-900/85 p-2 shadow-lg shadow-cyan-900/40 backdrop-blur-sm">
+                  <TouchDirectionButton
+                    label="▲"
+                    onPressChange={(pressed) => setVirtualDirection('up', pressed)}
+                  />
+                  <div className="flex items-center gap-2">
+                    <TouchDirectionButton
+                      label="◀"
+                      onPressChange={(pressed) => setVirtualDirection('left', pressed)}
+                    />
+                    <TouchDirectionButton
+                      label="▶"
+                      onPressChange={(pressed) => setVirtualDirection('right', pressed)}
+                    />
+                  </div>
+                  <TouchDirectionButton
+                    label="▼"
+                    onPressChange={(pressed) => setVirtualDirection('down', pressed)}
+                  />
                 </div>
               </div>
 
@@ -325,3 +389,36 @@ function App() {
 }
 
 export default App
+
+type TouchDirectionButtonProps = {
+  label: string
+  onPressChange: (pressed: boolean) => void
+}
+
+function TouchDirectionButton({ label, onPressChange }: TouchDirectionButtonProps) {
+  const directionName =
+    label === '▲'
+      ? 'up'
+      : label === '▼'
+        ? 'down'
+        : label === '◀'
+          ? 'left'
+          : 'right'
+
+  return (
+    <button
+      type="button"
+      aria-label={`Move ${directionName}`}
+      onPointerDown={(event) => {
+        event.preventDefault()
+        onPressChange(true)
+      }}
+      onPointerUp={() => onPressChange(false)}
+      onPointerCancel={() => onPressChange(false)}
+      onPointerLeave={() => onPressChange(false)}
+      className="flex h-12 w-12 touch-none items-center justify-center rounded-lg border border-cyan-200/70 bg-cyan-500/35 text-xl font-bold text-white transition active:scale-95 active:bg-cyan-400/65 sm:h-14 sm:w-14"
+    >
+      {label}
+    </button>
+  )
+}

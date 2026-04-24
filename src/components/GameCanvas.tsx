@@ -30,6 +30,12 @@ type GameCanvasProps = {
   showHint: boolean
   difficulty: DifficultyOption
   language: LanguageOption
+  virtualControls: {
+    up: boolean
+    down: boolean
+    left: boolean
+    right: boolean
+  }
   onProximityChange: (state: TargetProximityState, distance: number | null) => void
   onTargetFound: (targetId: string) => void
 }
@@ -42,6 +48,7 @@ export function GameCanvas({
   showHint,
   difficulty,
   language,
+  virtualControls,
   onProximityChange,
   onTargetFound,
 }: GameCanvasProps) {
@@ -52,6 +59,7 @@ export function GameCanvas({
   const showHintRef = useRef(showHint)
   const difficultyRef = useRef<DifficultyOption>(difficulty)
   const languageRef = useRef<LanguageOption>(language)
+  const virtualControlsRef = useRef(virtualControls)
   const onProximityChangeRef = useRef(onProximityChange)
   const onTargetFoundRef = useRef(onTargetFound)
   const countryBordersRef = useRef<BorderRing[]>([])
@@ -75,6 +83,10 @@ export function GameCanvas({
   useEffect(() => {
     languageRef.current = language
   }, [language])
+
+  useEffect(() => {
+    virtualControlsRef.current = virtualControls
+  }, [virtualControls])
 
   useEffect(() => {
     onProximityChangeRef.current = onProximityChange
@@ -141,10 +153,12 @@ export function GameCanvas({
       updateHelicopter(
         helicopter,
         {
-          up: Boolean(keys.w || keys.W || keys.ArrowUp),
-          down: Boolean(keys.s || keys.S || keys.ArrowDown),
-          left: Boolean(keys.a || keys.A || keys.ArrowLeft),
-          right: Boolean(keys.d || keys.D || keys.ArrowRight),
+          up: Boolean(keys.w || keys.W || keys.ArrowUp || virtualControlsRef.current.up),
+          down: Boolean(keys.s || keys.S || keys.ArrowDown || virtualControlsRef.current.down),
+          left: Boolean(keys.a || keys.A || keys.ArrowLeft || virtualControlsRef.current.left),
+          right: Boolean(
+            keys.d || keys.D || keys.ArrowRight || virtualControlsRef.current.right,
+          ),
         },
         deltaTime,
       )
