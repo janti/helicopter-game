@@ -168,11 +168,12 @@ export function GameCanvas({
         helicopterFacing = helicopter.vx >= 0 ? 1 : -1
       }
 
-      helicopter.x = clamp(helicopter.x, 0, WORLD_WIDTH)
-      helicopter.y = clamp(helicopter.y, 0, WORLD_HEIGHT)
-      if (helicopter.x === 0 || helicopter.x === WORLD_WIDTH) {
-        helicopter.vx = 0
+      if (helicopter.x < 0) {
+        helicopter.x += WORLD_WIDTH
+      } else if (helicopter.x > WORLD_WIDTH) {
+        helicopter.x -= WORLD_WIDTH
       }
+      helicopter.y = clamp(helicopter.y, 0, WORLD_HEIGHT)
       if (helicopter.y === 0 || helicopter.y === WORLD_HEIGHT) {
         helicopter.vy = 0
       }
